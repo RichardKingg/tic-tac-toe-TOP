@@ -14,4 +14,8 @@ let gameBoard = (function () {
       container.appendChild(grid[i][j]);
     }
   }
+  return {
+    container,
+    gameArray,
+  };
 })();
