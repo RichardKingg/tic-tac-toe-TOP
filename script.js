@@ -10,8 +10,8 @@ let gameBoard = (function () {
     for (let j = 0; j < cols; j++) {
       const cell = document.createElement("div");
       cell.classList.add("boardCell");
-      grid[i][j] = cell;
-      container.appendChild(grid[i][j]);
+      gameArray[i][j] = cell;
+      container.appendChild(gameArray[i][j]);
     }
   }
   return {
