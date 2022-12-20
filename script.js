@@ -1,6 +1,6 @@
 //Module for creating the game board
 let gameBoard = (function () {
-  let container = document.querySelector(".container");
+  let container = document.querySelector(".gameBoard");
   let gameArray = [];
   const rows = 3;
   const cols = 3;
