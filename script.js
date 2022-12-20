@@ -20,10 +20,16 @@ let gameBoard = (function () {
 })();
 
 //Factory function for creating a player
-function createPlayer(name, marking) {
+function createPlayer() {
+  let player1 = document.querySelector(".player1").textContent;
+  let player2 = document.querySelector(".player2").textContent;
+
+  if (player1.textContent === "" || player2.textContent === "") {
+    return alert("Please fill out the names of the players");
+  }
   return {
-    name: name,
-    marking: marking,
+    player1,
+    player2,
   };
 }
 
