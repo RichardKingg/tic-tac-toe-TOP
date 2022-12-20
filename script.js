@@ -1,4 +1,4 @@
-//Module for creating the game board
+//Module for creating the cells in the game board
 let gameBoard = (function () {
   let container = document.querySelector(".gameBoard");
   let gameArray = [];
@@ -16,5 +16,37 @@ let gameBoard = (function () {
   return {
     container,
     gameArray,
+  };
+})();
+
+//Factory function for creating a player
+function createPlayer(name, marking) {
+  return {
+    name: name,
+    marking: marking,
+  };
+}
+
+//Module for score keeping
+let scoreBoard = (function () {
+  let playerScore1 = document.querySelector(".player1Score").textContent;
+  let playerScore2 = document.querySelector(".player2Score").textContent;
+
+  let player1Counter = function () {
+    if (playerScore1 === 3) {
+      return (playerScore1 = 0);
+    }
+    return playerScore1++;
+  };
+  let player2Counter = function () {
+    if (playerScore2 === 3) {
+      return (playerScore2 = 0);
+    }
+    return playerScore2++;
+  };
+
+  return {
+    player1Counter,
+    player2Counter,
   };
 })();
