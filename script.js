@@ -16,6 +16,7 @@ let gameBoard = (function () {
   return {
     container,
     gameArray,
+    cell,
   };
 })();
 
@@ -27,6 +28,7 @@ function createPlayer() {
   if (player1.textContent === "" || player2.textContent === "") {
     return alert("Please fill out the names of the players");
   }
+
   return {
     player1,
     player2,
@@ -56,3 +58,40 @@ let scoreBoard = (function () {
     player2Counter,
   };
 })();
+
+//Module for player turn default state
+let playerTurns = (function () {
+  let player1Turn = true;
+  let player2Turn = false;
+  return {
+    player1Turn,
+    player2Turn,
+  };
+})();
+
+//Module for changing cell text content to X or O
+let clickCheck = (function (board, turn) {
+  let cells = board.gameArray;
+  function cellClick(event) {
+    let cell = event.target;
+    if (turn.player1Turn === true && cell.textContent === "") {
+      cell.textContent = "X";
+      turn.player1Turn = false;
+      turn.player2Turn = true;
+      return;
+    } else if (turn.player2Turn === true && cell.textContent === "") {
+      cell.textContent = "O";
+      turn.player1Turn = true;
+      turn.player2Turn = false;
+      return;
+    } else if (cell.textContent === "X" || cell.textContent === "O") {
+      return;
+    }
+  }
+
+  cells.forEach(function (row) {
+    row.forEach(function (cell) {
+      cell.addEventListener("mousedown", cellClick);
+    });
+  });
+})(gameBoard, playerTurns);
