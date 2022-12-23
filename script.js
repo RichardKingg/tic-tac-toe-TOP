@@ -2,21 +2,19 @@
 let gameBoard = (function () {
   let container = document.querySelector(".gameBoard");
   let gameArray = [];
-  const rows = 3;
-  const cols = 3;
-  for (let i = 0; i < rows; i++) {
-    gameArray[i] = [];
-    for (let j = 0; j < cols; j++) {
+  for (let i = 0; i < 3; i++) {
+    let row = document.createElement("div");
+    row.classList.add("row");
+    for (let j = 0; j < 3; j++) {
       const cell = document.createElement("div");
       cell.classList.add("boardCell");
-      gameArray[i][j] = cell;
-      container.appendChild(gameArray[i][j]);
+      row.appendChild(cell);
     }
+    container.appendChild(row);
   }
   return {
     container,
     gameArray,
-    cell,
   };
 })();
 
