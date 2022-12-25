@@ -29,6 +29,9 @@ header {
 }
 
 .gameBoard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
   justify-self: center;
   align-self: center;
   width: 400px;
@@ -36,8 +39,7 @@ header {
   background-color: gray;
 }
 
-.boardCell {
-  display: inline-block;
+.cell {
   height: 25px;
   width: 25px;
   border: 1px solid black;
