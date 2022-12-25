@@ -1,7 +1,11 @@
 //Module for creating the cells in the game board
 let gameBoard = (function () {
   let container = document.querySelector(".gameBoard");
-  let gameArray = [[0, 1, 2][(3, 4, 5)][(6, 7, 8)]];
+  let gameArray = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+  ];
   return {
     container,
     gameArray,
@@ -77,9 +81,7 @@ let clickCheck = (function (board, turn) {
     }
   }
 
-  cells.forEach(function (row) {
-    row.forEach(function (cell) {
-      cell.addEventListener("mousedown", cellClick);
-    });
+  cells.forEach(function (cell) {
+    cell.addEventListener("mousedown", cellClick);
   });
 })(gameBoard, playerTurns);
