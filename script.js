@@ -12,12 +12,31 @@ let gameBoard = (function () {
   };
 })();
 
+//Module for mapping cell values in gameArray
+let gameLogic = (function () {
+  let winCondition = () => {
+    winCombinations = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 4, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [6, 4, 2],
+    ];
+  };
+  return {
+    winCondition,
+  };
+})();
+
 //Factory function for creating a player
 function createPlayer() {
   let player1 = document.querySelector(".player1").textContent;
   let player2 = document.querySelector(".player2").textContent;
 
-  if (player1.textContent === "" || player2.textContent === "") {
+  if (player1.textContent === "" && player2.textContent === "") {
     return alert("Please fill out the names of the players");
   }
 
@@ -62,8 +81,30 @@ let playerTurns = (function () {
 })();
 
 //Module for changing cell text content to X or O
-let clickCheck = (function (board, turn) {
-  let cells = board.gameArray;
+let clickCheck = (function (turn, logic, board, score) {
+  let cells = document.querySelectorAll(".cell");
+
+  let indexArray = [];
+
+  cells.forEach((cell) => {
+    indexArray.push(cell.getAttribute("data-index"));
+  });
+
+  let boardSquare = cells.forEach(function (cell) {
+    cell.addEventListener("mousedown", cellClick);
+  });
+
+  function resetBoard() {
+    cells.forEach(function (cell) {
+      cell.textContent = "";
+    });
+    turn.player1Turn = true;
+    turn.player2Turn = false;
+    return;
+  }
+
+  function winRound() {}
+
   function cellClick(event) {
     let cell = event.target;
     if (turn.player1Turn === true && cell.textContent === "") {
@@ -80,8 +121,4 @@ let clickCheck = (function (board, turn) {
       return;
     }
   }
-
-  cells.forEach(function (cell) {
-    cell.addEventListener("mousedown", cellClick);
-  });
-})(gameBoard, playerTurns);
+})(playerTurns, gameLogic, gameBoard, scoreBoard);
