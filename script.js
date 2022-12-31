@@ -1,33 +1,17 @@
-//Module for creating the cells in the game board
-let gameBoard = (function () {
-  let container = document.querySelector(".gameBoard");
-  let gameArray = [
+//Module for mapping cell values in gameArray
+let gameLogic = (function () {
+  let winCombinations = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
+    [0, 4, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [6, 4, 2],
   ];
   return {
-    container,
-    gameArray,
-  };
-})();
-
-//Module for mapping cell values in gameArray
-let gameLogic = (function () {
-  let winCondition = () => {
-    winCombinations = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 4, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [6, 4, 2],
-    ];
-  };
-  return {
-    winCondition,
+    winCombinations,
   };
 })();
 
@@ -81,13 +65,14 @@ let playerTurns = (function () {
 })();
 
 //Module for changing cell text content to X or O
-let clickCheck = (function (turn, logic, board, score) {
+let gameBoard = (function (turn, logic, score) {
   let cells = document.querySelectorAll(".cell");
+  let container = document.querySelector(".gameBoard");
 
   let indexArray = [];
 
-  cells.forEach((cell) => {
-    indexArray.push(cell.getAttribute("data-index"));
+  let valueIndex = cells.forEach((cell) => {
+    indexArray.push(parseInt(cell.getAttribute("data-index")));
   });
 
   let boardSquare = cells.forEach(function (cell) {
@@ -121,4 +106,9 @@ let clickCheck = (function (turn, logic, board, score) {
       return;
     }
   }
-})(playerTurns, gameLogic, gameBoard, scoreBoard);
+
+  return {
+    valueIndex,
+    indexArray,
+  };
+})(playerTurns, gameLogic, scoreBoard);
