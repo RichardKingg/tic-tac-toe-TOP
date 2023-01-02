@@ -75,7 +75,7 @@ let gameBoard = (function (turn, logic, score) {
     indexArray.push(parseInt(cell.getAttribute("data-index")));
   });
 
-  let boardSquare = cells.forEach(function (cell) {
+  let placeMark = cells.forEach(function (cell) {
     cell.addEventListener("mousedown", cellClick);
   });
 
