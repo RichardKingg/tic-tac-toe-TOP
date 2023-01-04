@@ -16,73 +16,41 @@ let gameLogic = (function () {
 })();
 
 //Module for creating a player
-let createPlayer = (function () {
-  let player1 = document.querySelector(".player1").textContent;
-  let player2 = document.querySelector(".player2").textContent;
+let playerMark = (function () {
   let player1Mark = "X";
   let player2Mark = "O";
 
-  if (player1.textContent === "" && player2.textContent === "") {
-    return alert("Please fill out the names of the players");
-  }
-
   return {
-    player1,
-    player2,
     player1Mark,
     player2Mark,
-  };
-})();
-
-//Module for score keeping
-let scoreBoard = (function () {
-  let playerScore1 = document.querySelector(".player1Score").textContent;
-  let playerScore2 = document.querySelector(".player2Score").textContent;
-
-  let player1Counter = function () {
-    if (playerScore1 === 3) {
-      return (playerScore1 = 0);
-    }
-    return playerScore1++;
-  };
-  let player2Counter = function () {
-    if (playerScore2 === 3) {
-      return (playerScore2 = 0);
-    }
-    return playerScore2++;
-  };
-
-  return {
-    player1Counter,
-    player2Counter,
   };
 })();
 
 //Module for player turn default state
 let playerTurns = (function () {
   let player1Turn = true;
-  let player2Turn = false;
   return {
     player1Turn,
-    player2Turn,
   };
 })();
 
 //Module for changing cell text content to X or O and managing winning combinations
-let gameBoard = (function (turn, logic, score, mark) {
-  let cells = document.querySelectorAll(".cell");
-  let container = document.querySelector(".gameBoard");
+let gameBoard = (function (turn, logic, mark) {
+  let cells = document.querySelectorAll("[data-index]");
   let resetBtn = document.querySelector(".resetBtn");
+  let turnMsg = document.querySelector(".turnMessage");
+  let winMsg = document.querySelector(".winMessage");
+  let player1Score = parseInt(
+    document.querySelector(".player1Score").textContent
+  );
+  let player2Score = parseInt(
+    document.querySelector(".player2Score").textContent
+  );
   let playerXMark = mark.player1Mark;
   let playerOMark = mark.player2Mark;
-
+  let combinations = logic.winCombinations;
+  let turnX = turn.player1Turn;
   let currentTurn = undefined;
-
-  let placeMark = cells.forEach(function (cell) {
-    cell.addEventListener("mousedown", cellClick, { once: true });
-  });
-
-  let reset = resetBtn.addEventListener("click", resetBoard);
 
   function resetBoard() {
     turn.player1Turn = true;
@@ -99,9 +67,7 @@ let gameBoard = (function (turn, logic, score, mark) {
 
   function cellClick(event) {
     let cell = event.target;
-    let turnX = turn.player1Turn;
-    let turnO = turn.player2Turn;
-
+    turnX = turn.player1Turn;
     currentTurn = turnX ? playerXMark : playerOMark;
     console.log(turnX);
     console.log(currentTurn);
@@ -110,30 +76,51 @@ let gameBoard = (function (turn, logic, score, mark) {
       cell.textContent = "X";
       turn.player1Turn = false;
       turn.player2Turn = true;
-      cell.classList.add(currentTurn);
-      return;
+      turnMsg.textContent = `player O's turn`;
+      return cell.classList.add(currentTurn);
     } else if (turn.player2Turn === true && cell.textContent === "") {
       cell.textContent = "O";
       turn.player1Turn = true;
       turn.player2Turn = false;
-      cell.classList.add(currentTurn);
-      return;
+      turnMsg.textContent = `player X's turn`;
+      return cell.classList.add(currentTurn);
     } else if (cell.textContent === "X" || cell.textContent === "O") {
       return;
     }
 
-    function winRound(currentTurn) {
-      return logic.winCombinations.some((combination) => {
-        return combination.every((index) => {
-          return cells[index].classList.contains(currentTurn);
-        });
-      });
-    }
-
-    if (winRound(currentTurn)) {
-      return alert("win");
-    }
+    return currentTurn;
   }
 
+  function winRound(currentTurn) {
+    return combinations.some((combination) => {
+      return combination.every((index) => {
+        return cells[index].classList.contains(currentTurn);
+      });
+    });
+  }
+
+  let placeMark = cells.forEach(function (cell) {
+    cell.addEventListener("mousedown", cellClick, { once: true });
+  });
+
+  let checkWin = cells.forEach(function (cell) {
+    cell.addEventListener("mouseup", function () {
+      winRound(currentTurn);
+      if (winRound(currentTurn) && currentTurn === "X") {
+        resetBoard();
+        player1Score++;
+        player1Score.textContent = `${player1Score}`;
+        winMsg.textContent = `player X wins!`;
+      } else if (winRound(currentTurn) && currentTurn === "O") {
+        resetBoard();
+        player2Score++;
+        player2Score.textContent = `${player2Score}`;
+        winMsg.textContent = `player O wins!`;
+      }
+    });
+  });
+
+  let reset = resetBtn.addEventListener("click", resetBoard);
+
   return {};
-})(playerTurns, gameLogic, scoreBoard, createPlayer);
+})(playerTurns, gameLogic, playerMark);
