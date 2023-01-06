@@ -44,3 +44,22 @@ header {
   width: 25px;
   border: 1px solid black;
 }
+
+/* Hidden menu */
+.hidden {
+  display: none;
+}
+
+.visible {
+  position: absolute;
+  right: 50%;
+  bottom: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  width: 100%;
+}

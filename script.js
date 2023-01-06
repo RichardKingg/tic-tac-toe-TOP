@@ -40,12 +40,14 @@ let gameBoard = (function (turn, logic, mark) {
   let resetBtn = document.querySelector(".resetBtn");
   let turnMsg = document.querySelector(".turnMessage");
   let winMsg = document.querySelector(".winMessage");
-  let player1Score = parseInt(
-    document.querySelector(".player1Score").textContent
-  );
-  let player2Score = parseInt(
-    document.querySelector(".player2Score").textContent
-  );
+  let player1Score = document.querySelector(".player1Score");
+  let player2Score = document.querySelector(".player2Score");
+  let hiddenMenu = document.querySelectorAll(".hidden");
+  let hiddenWinMsg = document.querySelector(".winMenuMsg");
+  let startNewGame = document.querySelector(".startNewGame");
+
+  let player1ScoreMem = 0;
+  let player2ScoreMem = 0;
   let playerXMark = mark.player1Mark;
   let playerOMark = mark.player2Mark;
   let combinations = logic.winCombinations;
@@ -61,6 +63,7 @@ let gameBoard = (function (turn, logic, mark) {
       cell.removeEventListener("mousedown", cellClick);
       cell.addEventListener("mousedown", cellClick, { once: true });
       cell.textContent = "";
+      turnMsg.textContent = "Player X's turn";
     });
     return;
   }
@@ -108,13 +111,31 @@ let gameBoard = (function (turn, logic, mark) {
       winRound(currentTurn);
       if (winRound(currentTurn) && currentTurn === "X") {
         resetBoard();
-        player1Score++;
-        player1Score.textContent = `${player1Score}`;
+        player1ScoreMem += 1;
+        if (player1ScoreMem >= 3) {
+          player1ScoreMem = 0;
+          player2ScoreMem = 0;
+          hiddenMenu.forEach(function (hiddenItem) {
+            hiddenItem.classList.remove("hidden");
+            hiddenItem.classList.add("visible");
+          });
+          hiddenWinMsg.textContent = "player X wins the game!";
+        }
+        player1Score.textContent = `${player1ScoreMem}`;
         winMsg.textContent = `player X wins!`;
       } else if (winRound(currentTurn) && currentTurn === "O") {
         resetBoard();
-        player2Score++;
-        player2Score.textContent = `${player2Score}`;
+        player2ScoreMem += 1;
+        if (player2ScoreMem >= 3) {
+          player1ScoreMem = 0;
+          player2ScoreMem = 0;
+          hiddenMenu.forEach(function (hiddenItem) {
+            hiddenItem.classList.remove("hidden");
+            hiddenItem.classList.add("visible");
+          });
+          hiddenWinMsg.textContent = "player X wins the game!";
+        }
+        player2Score.textContent = `${player2ScoreMem}`;
         winMsg.textContent = `player O wins!`;
       }
     });
