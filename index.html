@@ -10,16 +10,22 @@
   </head>
   <body>
     <header>
-      <h1>Tic-Tac-Toe</h1>
+      <h1>Tic - Tac - Toe</h1>
     </header>
     <div class="container">
       <div class="scoreBoard">
-        <p class="player1Score">0</p>
-        <p class="player2Score">0</p>
+        <div class="scoreContainer">
+          <p class="scoreTitle">Player X's score</p>
+          <p class="player1Score">0</p>
+        </div>
+        <div class="scoreContainer">
+          <p class="scoreTitle">Player O's score</p>
+          <p class="player2Score">0</p>
+        </div>
       </div>
       <div class="playersMessageContainer">
         <p class="turnMessage">Player X's turn</p>
-        <p class="winMessage"></p>
+        <p class="winMessage">Who will be the winner?</p>
       </div>
       <div class="gameBoard">
         <div class="cell" data-index="0"></div>

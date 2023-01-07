@@ -86,13 +86,13 @@ let gameBoard = (function (turn, logic, mark) {
       cell.textContent = "X";
       turn.player1Turn = false;
       turn.player2Turn = true;
-      turnMsg.textContent = `player O's turn`;
+      turnMsg.textContent = `Player O's turn`;
       return cell.classList.add(currentTurn);
     } else if (turn.player2Turn === true && cell.textContent === "") {
       cell.textContent = "O";
       turn.player1Turn = true;
       turn.player2Turn = false;
-      turnMsg.textContent = `player X's turn`;
+      turnMsg.textContent = `Player X's turn`;
       return cell.classList.add(currentTurn);
     } else if (cell.textContent === "X" || cell.textContent === "O") {
       return;
@@ -137,7 +137,7 @@ let gameBoard = (function (turn, logic, mark) {
           hiddenWinMsg.textContent = "Player X wins the game!";
         }
         player1Score.textContent = `${player1ScoreMem}`;
-        winMsg.textContent = `player X wins!`;
+        winMsg.textContent = `Player X wins!`;
       } else if (winRound(currentTurn) && currentTurn === "O") {
         resetBoard();
         player2ScoreMem += 1;
@@ -151,7 +151,7 @@ let gameBoard = (function (turn, logic, mark) {
           hiddenWinMsg.textContent = "Player O wins the game!";
         }
         player2Score.textContent = `${player2ScoreMem}`;
-        winMsg.textContent = `player O wins!`;
+        winMsg.textContent = `Player O wins!`;
       }
     });
   });
@@ -166,7 +166,7 @@ let gameBoard = (function (turn, logic, mark) {
     player2ScoreMem = 0;
     player1Score.textContent = "0";
     player2Score.textContent = "0";
-    winMsg.textContent = "";
+    winMsg.textContent = "Who will be the winner?";
     resetBoard();
   });
 
