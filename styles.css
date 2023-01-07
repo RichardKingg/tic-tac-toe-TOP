@@ -52,14 +52,25 @@ header {
 
 .visible {
   position: absolute;
+  display: inline-block;
+}
+
+.startNewGame {
+  position: fixed;
   right: 50%;
   bottom: 50%;
-  display: flex;
-  flex-direction: column;
+}
+
+.winMenuMsg {
+  position: fixed;
+  right: 35%;
+  bottom: 55%;
+  color: white;
+  font-size: 40px;
 }
 
 .overlay {
-  background-color: rgba(0, 0, 0, 0.5);
-  height: 100%;
-  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  height: 100vh;
+  width: 100vw;
 }

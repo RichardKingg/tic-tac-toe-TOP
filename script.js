@@ -54,6 +54,7 @@ let gameBoard = (function (turn, logic, mark) {
   let turnX = turn.player1Turn;
   let currentTurn = undefined;
 
+  //Function for resetting the board
   function resetBoard() {
     turn.player1Turn = true;
     turn.player2Turn = false;
@@ -68,12 +69,18 @@ let gameBoard = (function (turn, logic, mark) {
     return;
   }
 
+  //Function for a draw
+  function draw() {
+    return [...cells].every((cell) => {
+      return cell.textContent !== "";
+    });
+  }
+
+  //Function to change the cell content to X or O
   function cellClick(event) {
     let cell = event.target;
     turnX = turn.player1Turn;
     currentTurn = turnX ? playerXMark : playerOMark;
-    console.log(turnX);
-    console.log(currentTurn);
 
     if (turn.player1Turn === true && cell.textContent === "") {
       cell.textContent = "X";
@@ -94,6 +101,7 @@ let gameBoard = (function (turn, logic, mark) {
     return currentTurn;
   }
 
+  //Function to check if X or O player wins
   function winRound(currentTurn) {
     return combinations.some((combination) => {
       return combination.every((index) => {
@@ -106,9 +114,16 @@ let gameBoard = (function (turn, logic, mark) {
     cell.addEventListener("mousedown", cellClick, { once: true });
   });
 
+  //Function to check for a winning combination when clicking a cell
   let checkWin = cells.forEach(function (cell) {
     cell.addEventListener("mouseup", function () {
       winRound(currentTurn);
+
+      if (draw()) {
+        resetBoard();
+        winMsg.textContent = "It's a draw!";
+      }
+
       if (winRound(currentTurn) && currentTurn === "X") {
         resetBoard();
         player1ScoreMem += 1;
@@ -119,7 +134,7 @@ let gameBoard = (function (turn, logic, mark) {
             hiddenItem.classList.remove("hidden");
             hiddenItem.classList.add("visible");
           });
-          hiddenWinMsg.textContent = "player X wins the game!";
+          hiddenWinMsg.textContent = "Player X wins the game!";
         }
         player1Score.textContent = `${player1ScoreMem}`;
         winMsg.textContent = `player X wins!`;
@@ -133,12 +148,26 @@ let gameBoard = (function (turn, logic, mark) {
             hiddenItem.classList.remove("hidden");
             hiddenItem.classList.add("visible");
           });
-          hiddenWinMsg.textContent = "player X wins the game!";
+          hiddenWinMsg.textContent = "Player O wins the game!";
         }
         player2Score.textContent = `${player2ScoreMem}`;
         winMsg.textContent = `player O wins!`;
       }
     });
+  });
+
+  //Function for creating a new game
+  let newGame = startNewGame.addEventListener("click", function () {
+    hiddenMenu.forEach(function (hiddenItem) {
+      hiddenItem.classList.remove("visible");
+      hiddenItem.classList.add("hidden");
+    });
+    player1ScoreMem = 0;
+    player2ScoreMem = 0;
+    player1Score.textContent = "0";
+    player2Score.textContent = "0";
+    winMsg.textContent = "";
+    resetBoard();
   });
 
   let reset = resetBtn.addEventListener("click", resetBoard);
