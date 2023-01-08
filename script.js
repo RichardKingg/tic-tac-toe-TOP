@@ -119,11 +119,6 @@ let gameBoard = (function (turn, logic, mark) {
     cell.addEventListener("mouseup", function () {
       winRound(currentTurn);
 
-      if (draw()) {
-        resetBoard();
-        winMsg.textContent = "It's a draw!";
-      }
-
       if (winRound(currentTurn) && currentTurn === "X") {
         resetBoard();
         player1ScoreMem += 1;
@@ -152,6 +147,11 @@ let gameBoard = (function (turn, logic, mark) {
         }
         player2Score.textContent = `${player2ScoreMem}`;
         winMsg.textContent = `Player O wins!`;
+      }
+
+      if (draw()) {
+        resetBoard();
+        winMsg.textContent = "It's a draw!";
       }
     });
   });
